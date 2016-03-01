@@ -1,0 +1,64 @@
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" type="text/css" href="/home/knoldus/Desktop/myTest/Assignment22/css/bootstrap.min.css">
+<script src="/home/knoldus/Desktop/jquery-2.2.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    
+
+    $("#post").click(function(){
+        $.post("http://localhost:9000/student/all", function(data, status){
+            
+               
+                for(var i=0;i<data.length;i++){
+                	$("#tx").val("Id:"+data[i].id +"\r\n" +"Name:"+data[i].name+"\r\n" +"Email:"+data[i].email);
+                    
+                }
+        });
+    });
+
+    $("#get").click(function(){
+        $.get("http://localhost:9000/student/1", function(data, status){
+             $("#tx").val("Id:"+data.id +"\r\n" +"Name:"+data.name+"\r\n" +"Email:"+data.email);
+                   
+        });
+    });
+    $('#save').click(function(){
+            var id = parseInt($('#id').val());
+            var name = $('#name').val();
+            var email = $('#email').val();
+            $.ajax({
+              url: "http://localhost:9000/student/save",
+              type: "POST",
+              data: JSON.stringify({"id":id,"name":name,"email":email}),
+              contentType: "application/json",
+              dataType: "json",
+              success: function(data, status){
+                 alert(data+" ; "+status)
+              }
+            });
+          });
+      });
+</script>
+</head>
+<body>
+<div class ="container">
+  <div class="jumbotron" style="background-color: blue;">
+    <h1>USER INFORMATION</h1> 
+    <p>Enter your details</p> 
+  </div>
+  
+<label for="id   ">id</label>    <input type="text" name="id"placeholder="id"style="border:2px solid;"/><br><br>
+<label for="name">name</label><input type="text" name="name"placeholder="name"style="border:2px solid;"/><br><br>
+<label for="email">Email</label><input type="text" name="email"placeholder="email"style="border:2px solid;"/><br><br>
+<button id="get"style="background-color: red;"> Get</button>
+<button id="save"style="background-color: red;"> save</button>
+<button id="post"style="background-color: red;">Post</button><br><br>
+
+CommentBox<textarea id="tx" placeholder="comment" style="height:300px;width:100%;border:2px solid;">
+ 
+</textarea>
+</body>
+</html>
